@@ -19,6 +19,16 @@ $groups = Import-Csv -Path $group_csv
 foreach($user in $users) {
     # get sam account name from email
     $sam = $user.email.split("@")[0]
+    
+    # shorten username if greater than 20 characters
+    if ($sam.Length -gt 20) {
+        $new = ""
+        for ($i = 0; $i -lt 20; $i++) {
+            $new += $sam[$i]
+        }
+        $sam = $new
+        "WARNING: Username shortend to " + $sam
+    }
 
     # create account
     "Creating account for: " + $user.fullname
