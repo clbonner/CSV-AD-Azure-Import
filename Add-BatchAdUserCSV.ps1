@@ -5,7 +5,7 @@
 if ($args.count -ne 2) {
     "Usage: Add-BatchADUserCSV {users.csv} {groups.csv}"
     ""
-    "Users CSV file must contain the following columns: fullname, firstname, lastname, email, password"
+    "Users CSV file must contain the following columns: fullname, firstname, lastname, email, password, description"
     "Groups CSV file must contain the following column: name"
     exit
 }
@@ -32,7 +32,7 @@ foreach($user in $users) {
 
     # create account
     "Creating account for: " + $user.fullname
-    New-ADUser -Name $user.fullname -GivenName $user.firstname -Surname $user.lastname -DisplayName $user.fullname -SamAccountName $sam -EmailAddress $user.email -UserPrincipalName $user.email -Enabled $True -AccountPassword (ConvertTo-SecureString -AsPlainText $user.password -Force) -ChangePasswordAtLogon $True
+    New-ADUser -Name $user.fullname -GivenName $user.firstname -Surname $user.lastname -DisplayName $user.fullname -Description $user.description -SamAccountName $sam -EmailAddress $user.email -UserPrincipalName $user.email -Enabled $True -AccountPassword (ConvertTo-SecureString -AsPlainText $user.password -Force) -ChangePasswordAtLogon $True
     
     # get new user object
     $newuser = Get-ADUser $sam
